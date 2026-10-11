@@ -1,0 +1,106 @@
+Warning: "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+ --> contracts/test/ForceEther.sol:7:9:
+  |
+7 |         selfdestruct(recipient);
+  |         ^^^^^^^^^^^^
+
+
+Compiled 9 Solidity files successfully (evm target: paris).
+
+
+  OilGasEscrow
+    Participants and access control
+      √ sets distinct fixed roles without granting a role administrator (347ms)
+      √ rejects zero buyer
+      √ rejects zero supplier
+      √ rejects same participants
+      √ denies createBatch to supplier
+      √ denies createBatch to outsider
+      √ denies fundBatch to supplier
+      √ denies fundBatch to outsider
+      √ denies releasePayment to supplier
+      √ denies releasePayment to outsider
+      √ denies refund to supplier
+      √ denies refund to outsider
+      √ denies rejectBatch to supplier
+      √ denies rejectBatch to outsider
+      √ denies markDelivered to buyer
+      √ denies markDelivered to outsider
+      √ prevents granting, revoking or renouncing roles
+    Creation and metadata
+      √ stores every field and emits BatchCreated
+      √ accepts id zero without confusing it with an absent batch
+      √ rejects duplicate ids without overwriting metadata
+      √ rejects invalid volume
+      √ rejects invalid price
+      √ rejects invalid hash
+      √ rejects invalid past
+      √ rejects invalid exact timestamp
+      √ rejects an unknown id in fundBatch
+      √ rejects an unknown id in markDelivered
+      √ rejects an unknown id in releasePayment
+      √ rejects an unknown id in refund
+      √ rejects an unknown id in rejectBatch
+    Payments and deadline boundaries
+      √ funds only the exact price and emits Funded
+      √ rejects payment 0 wei without changing balance or status
+      √ rejects payment 999999999999999999 wei without changing balance or status
+      √ rejects payment 1000000000000000001 wei without changing balance or status
+      √ allows funding one second before deadline
+      √ rejects funding at deadline + 0
+      √ rejects delivery at deadline + 0
+      √ allows timeout refund at deadline + 0
+      √ rejects funding at deadline + 1
+      √ rejects delivery at deadline + 1
+      √ allows timeout refund at deadline + 1
+      √ allows delivery one second before deadline and emits Delivered
+      √ rejects refund one second before deadline
+      √ returns ETH and emits Refunded on timeout
+    Acceptance and rejection
+      √ completes create -> fund -> deliver -> release with an exact supplier payment
+      √ emits PaymentReleased
+      √ keeps timely delivered batches payable after deadline
+      √ does not timeout-refund a timely delivered batch
+      √ rejects a delivered batch and immediately refunds its exact price
+      √ emits both rejection evidence and refund events
+      √ requires a nonzero rejection reason hash
+    All invalid state transitions
+      √ blocks markDelivered from Created
+      √ blocks releasePayment from Created
+      √ blocks refund from Created
+      √ blocks rejectBatch from Created
+      √ blocks fundBatch from Funded
+      √ blocks releasePayment from Funded
+      √ blocks rejectBatch from Funded
+      √ blocks fundBatch from Delivered
+      √ blocks markDelivered from Delivered
+      √ blocks refund from Delivered
+      √ blocks fundBatch from Released
+      √ blocks markDelivered from Released
+      √ blocks releasePayment from Released
+      √ blocks refund from Released
+      √ blocks rejectBatch from Released
+      √ blocks fundBatch from Refunded
+      √ blocks markDelivered from Refunded
+      √ blocks releasePayment from Refunded
+      √ blocks refund from Refunded
+      √ blocks rejectBatch from Refunded
+      √ does not reuse a terminal batch id
+    Adversarial recipients and reentrancy
+      √ rolls back release when the supplier rejects ETH and permits a retry
+      √ rolls back refund when buyer rejects ETH and permits a retry
+      √ blocks same-batch reentrancy during refund
+      √ rolls back rejectBatch when buyer rejects ETH and permits a retry
+      √ blocks same-batch reentrancy during rejectBatch
+      √ blocks cross-batch reentrancy without taking another batch's escrow
+      √ blocks reentrant funding during a refund
+      √ prevents the supplier from accepting its own delivery during a payment callback
+      √ rejects direct ETH transfers outside fundBatch
+    Escrow accounting invariants
+      √ does not treat forced ETH as escrow or distribute it with a batch payment
+      √ preserves metadata and isolates multiple batches with different prices (145ms)
+      √ checks the liability invariant after a seeded sequence of 32 independent batches (121ms)
+
+
+  84 passing (1s)
+

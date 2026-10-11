@@ -1,0 +1,9 @@
+node_modules/
+artifacts/
+cache/
+coverage/
+.venv/
+.env
+.env.*
+*.log
+!run-artifacts/*.log

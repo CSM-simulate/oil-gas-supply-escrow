@@ -1,0 +1,19 @@
+
+OilGasEscrow.createBatch(uint256,uint256,uint256,bytes32,uint256) (contracts/OilGasEscrow.sol#79-89) uses timestamp for comparisons
+	Dangerous comparisons:
+	- volume == 0 || priceWei == 0 || specHash == bytes32(0) || deadline <= block.timestamp (contracts/OilGasEscrow.sol#83)
+OilGasEscrow.fundBatch(uint256) (contracts/OilGasEscrow.sol#92-100) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= batch.deadline (contracts/OilGasEscrow.sol#95)
+OilGasEscrow.markDelivered(uint256) (contracts/OilGasEscrow.sol#103-109) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= batch.deadline (contracts/OilGasEscrow.sol#106)
+OilGasEscrow.refund(uint256) (contracts/OilGasEscrow.sol#123-131) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < batch.deadline (contracts/OilGasEscrow.sol#126)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+
+Low level call in OilGasEscrow._send(address,uint256) (contracts/OilGasEscrow.sol#171-174):
+	- (success,None) = address(recipient).call{value: amount}() (contracts/OilGasEscrow.sol#172)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+. analyzed (9 contracts with 100 detectors), 5 result(s) found

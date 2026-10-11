@@ -1,0 +1,6 @@
+Contract: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+Batch 1: Created -> Funded -> Delivered -> Released
+Batch 3: Created -> Funded -> Delivered -> Refunded (rejection)
+Batch 2: Created -> Funded -> Refunded (timeout)
+totalEscrowed: 0
+Contract balance: 0
